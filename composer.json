@@ -1,0 +1,55 @@
+{
+    "name": "monii/nimble-framework",
+    "description": "Nimble PSR-7 Framework",
+    "license": "MIT",
+    "keywords": ["nimble", "psr7", "psr-7", "framework"],
+    "authors": [
+        {
+            "name": "monii.io",
+            "email": "team@monii.com"
+        },
+        {
+            "name": "Beau Simensen",
+            "email": "beau@dflydev.com"
+        },
+        {
+            "name": "Steve Marks",
+            "email": "steve.marks@monii.com"
+        },
+        {
+            "name": "Alec Charlton",
+            "email": "alec.charlton@monii.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "monii/action-handler-psr7-middleware": "^0.0@dev",
+        "monii/action-handler-psr7-middleware-container-interop": "^0.0@dev",
+        "monii/nikic-fast-route-psr7-middleware": "^0.0@dev",
+        "monii/container-interop-laravel": "^0.0@dev",
+        "relay/relay": "^0.2.0",
+        "relay/middleware": "^0.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Monii\\Nimble\\": "src"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Monii\\Nimble\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.0.x-dev"
+        }
+    }
+}
