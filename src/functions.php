@@ -1,6 +1,10 @@
 <?php
 
 namespace Monii\Nimble;
+use Illuminate\Contracts\Container\Container;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Relay\Relay;
 
 /**
  * Create an action string for routing.
@@ -17,4 +21,28 @@ namespace Monii\Nimble;
 function action($className, $methodName)
 {
     return implode('@', [$className, $methodName]);
+}
+
+/**
+ * Create a Relay instance and handle an HTTP request.
+ *
+ * @param Container $container
+ * @param ServerRequestInterface|null $request
+ * @param ResponseInterface|null $response
+ * @return ResponseInterface
+ */
+function relay(
+    Container $container,
+    ServerRequestInterface $request = null,
+    ResponseInterface $response = null
+) {
+    $this->registerServiceProviders($container);
+
+    /** @var Relay $relay */
+    $relay = $container->make(Relay::class);
+
+    return $relay(
+        $request ?: $container->make(ServerRequestInterface::class),
+        $response ?: $container->make(ResponseInterface::class)
+    );
 }

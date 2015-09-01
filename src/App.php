@@ -7,9 +7,6 @@ use Monii\Nimble\ServiceProvider\ActionHandlerServiceProvider;
 use Monii\Nimble\ServiceProvider\ContainerServiceProvider;
 use Monii\Nimble\ServiceProvider\NikicFastRouteServiceProvider;
 use Monii\Nimble\ServiceProvider\RelayServiceProvider;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Relay\Relay;
 
 class App
 {
@@ -25,7 +22,7 @@ class App
         }
     }
 
-    protected function registerServiceProviders(Container $container)
+    public function registerServiceProviders(Container $container)
     {
         $this->makeAndRegisterServiceProviders($container, [
             ContainerServiceProvider::class,
@@ -33,21 +30,5 @@ class App
             NikicFastRouteServiceProvider::class,
             RelayServiceProvider::class,
         ]);
-    }
-
-    public function run(
-        Container $container,
-        ServerRequestInterface $request = null,
-        ResponseInterface $response = null
-    ) {
-        $this->registerServiceProviders($container);
-
-        /** @var Relay $relay */
-        $relay = $container->make(Relay::class);
-
-        return $relay(
-            $request ?: $container->make(ServerRequestInterface::class),
-            $response ?: $container->make(ResponseInterface::class)
-        );
     }
 }
