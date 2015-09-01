@@ -16,16 +16,18 @@ class App
     const DEFAULT_ACTION_ATTRIBUTE_NAME = 'monii/nimble-app:action';
     const DEFAULT_PARAMETERS_ATTRIBUTE_NAME = 'monii/nimble-app:parameters';
 
-    protected $registeredServiceProviderClassNames = [];
-
-    public function __construct(array $serviceProviderClassNames = [])
+    protected function makeAndRegisterServiceProviders(Container $container, array $serviceProviderClassNames)
     {
-        $this->addRegisteredServiceProviderClassNames($serviceProviderClassNames);
+        foreach ($serviceProviderClassNames as $providerClassName) {
+            $provider = $container->make($providerClassName);
+
+            $provider->register($container);
+        }
     }
 
-    protected function registerServiceProviderClassNames()
+    protected function registerServiceProviders(Container $container)
     {
-        $this->addRegisteredServiceProviderClassNames([
+        $this->makeAndRegisterServiceProviders($container, [
             ContainerServiceProvider::class,
             ActionHandlerServiceProvider::class,
             NikicFastRouteServiceProvider::class,
@@ -33,29 +35,11 @@ class App
         ]);
     }
 
-    protected function addRegisteredServiceProviderClassNames(array $providerClassNames)
-    {
-        $this->registeredServiceProviderClassNames = array_merge(
-            $this->registeredServiceProviderClassNames,
-            $providerClassNames
-        );
-    }
-
-    private function registerServiceProviders(Container $container)
-    {
-        foreach ($this->registeredServiceProviderClassNames as $providerClassName) {
-            $provider = $container->make($providerClassName);
-
-            $provider->register($container);
-        }
-    }
-
     public function run(
         Container $container,
         ServerRequestInterface $request = null,
         ResponseInterface $response = null
     ) {
-        $this->registerServiceProviderClassNames();
         $this->registerServiceProviders($container);
 
         /** @var Relay $relay */
