@@ -1,6 +1,7 @@
 <?php
 
 namespace Monii\Nimble;
+
 use Illuminate\Contracts\Container\Container;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -36,8 +37,6 @@ function relay(
     ServerRequestInterface $request = null,
     ResponseInterface $response = null
 ) {
-    $this->registerServiceProviders($container);
-
     /** @var Relay $relay */
     $relay = $container->make(Relay::class);
 
